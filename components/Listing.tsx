@@ -10,7 +10,6 @@ import { useNavigation } from '@react-navigation/native';
 
 interface Props {
     name: string;
-    image: string;
     price: string;
     description: string;
     rules: string[];
@@ -24,8 +23,8 @@ interface Props {
         <View style={styles.card}>
             <Image source={props.image} style={styles.profileImage}/>
             <View style={styles.textContainer}>
-                <TouchableOpacity onPress={()=> navigation.navigate('Listings')}><Text>{props.name}</Text></TouchableOpacity>
-                <Text>{props.price} per day</Text>
+                <TouchableOpacity onPress={()=> navigation.navigate('ListingDetails')}><Text>{props.name}</Text></TouchableOpacity>
+                <Text> ${props.price} per day</Text>
                 <Text>{props.description}</Text>
             </View>
         </View>

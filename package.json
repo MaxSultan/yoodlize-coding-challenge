@@ -14,7 +14,9 @@
     "@react-native-community/masked-view": "^0.1.10",
     "@react-navigation/bottom-tabs": "^5.8.0",
     "@react-navigation/native": "^5.7.3",
+    "@react-navigation/stack": "^5.9.1",
     "@types/react-native": "^0.63.19",
+    "@types/react-native-vector-icons": "^6.4.6",
     "graphql": "^15.3.0",
     "mobx": "^5.15.7",
     "mobx-react": "^6.3.0",
@@ -25,7 +27,8 @@
     "react-native-reanimated": "^1.13.0",
     "react-native-safe-area-context": "^3.1.8",
     "react-native-screens": "^2.11.0",
-    "react-native-unordered-list": "^1.0.4"
+    "react-native-unordered-list": "^1.0.4",
+    "react-native-vector-icons": "^7.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.11.6",

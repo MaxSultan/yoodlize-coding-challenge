@@ -1,22 +1,35 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
     View,
     StyleSheet,
     Text,
   } from 'react-native';
 import Listing from './Listing';
+import { gql, useQuery } from '@apollo/client'
 
-interface props {
-    listings: any[];
-}
+  const ListingList: React.FC = (props) =>  {
 
-  const ListingList: React.FC<props> = (props) =>  {
+    const getListings = gql`
+    query getListings {
+        Listing{
+    	    name
+            price
+    	    description
+    	    rules
+        }
+    }
+    `
+    
+    const { loading, error, data } = useQuery(getListings);
+
+    if (loading) return <Text>'Loading...'</Text>;
+    if (error) return <Text>`Error! ${error.message}`</Text>;
 
       const renderListings = () => {
-          return props.listings.map(l => <Listing key={l.name} image={l.image} name={l.name}  price={l.price} description={l.description}  rules={l.rules} />)
+          return data.Listing.map(({ name, price, description, rules }) => <Listing key={name} name={name}  price={price} description={description} rules={rules} />)
       }
 
-    return (
+    if (data) return (
         <View style={styles.center}>
             <Text>Popular</Text>
             {renderListings()}

@@ -7,23 +7,49 @@ import {
   } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
-
+import goat from '../assets/goat.psd'
+import genie from '../assets/genie.psd'
+import boat from '../assets/648147.psd'
 interface Props {
     name: string;
     price: string;
     description: string;
     rules: string[];
-    navigation: any;
+    navigation: string;
+    image: string;
+    id: number;
 }
 
 
-  const Listing: React.FC<Props> = (props) =>  {
+  const Listing: React.FC<Props> = (props) =>  { 
+
+    function imageInfo(){
+        switch(props.id){
+            case 1:
+            return goat
+            break;
+            case 4:
+            return genie
+            break;
+            case 2:
+            return boat
+            break;
+            default: 
+            return null;
+        }
+    }
+
+    
     const navigation = useNavigation()
     return (
         <View style={styles.card}>
-            <Image source={props.image} style={styles.profileImage}/>
+            <Image source={imageInfo()} style={styles.profileImage}/>
             <View style={styles.textContainer}>
-                <TouchableOpacity onPress={()=> navigation.navigate('ListingDetails')}><Text>{props.name}</Text></TouchableOpacity>
+                <TouchableOpacity onPress={()=> {
+                    navigation.navigate('ListingDetails', {
+                            id: props.id
+                        });
+                    }}><Text>{props.name}</Text></TouchableOpacity>
                 <Text> ${props.price} per day</Text>
                 <Text>{props.description}</Text>
             </View>

@@ -10,16 +10,19 @@ import {
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import UserStore from '../store/UserStore'
 import { observer } from "mobx-react";
-import { values } from "mobx";
 
-  const OwnerCard: React.FC = observer(props =>  {
+interface Props {
+    user:any
+  }
+
+  const OwnerCard: React.FC<Props> = observer(props =>  {
     const navigation = useNavigation()
     const { user } = UserStore
     return (
         <View style={styles.card}>
             <Image source={profile} style={styles.profileImage}/>
             <View>
-                <TouchableOpacity onPress={()=> navigation.navigate('Profile')}><Text>{UserStore.user[0].firstName} {UserStore.user[0].lastName}</Text></TouchableOpacity>
+    <TouchableOpacity onPress={()=> navigation.navigate('Profile')}><Text>{UserStore.user[0].firstName} {UserStore.user[0].lastName}</Text></TouchableOpacity>
                 <Text>Member Since {user[0].memberSince}</Text>
                 <Text>4 Stars 19</Text>
             </View>

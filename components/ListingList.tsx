@@ -7,7 +7,7 @@ import {
 import Listing from './Listing';
 import { gql, useQuery } from '@apollo/client'
 
-  const ListingList: React.FC = (props) =>  {
+  const ListingList: React.FC = () =>  {
 
     const getListings = gql`
     query getListings {
@@ -15,7 +15,9 @@ import { gql, useQuery } from '@apollo/client'
     	    name
             price
     	    description
-    	    rules
+            rules
+            image
+            id
         }
     }
     `
@@ -26,7 +28,7 @@ import { gql, useQuery } from '@apollo/client'
     if (error) return <Text>`Error! ${error.message}`</Text>;
 
       const renderListings = () => {
-          return data.Listing.map(({ name, price, description, rules }) => <Listing key={name} name={name}  price={price} description={description} rules={rules} />)
+          return data.Listing.map(({ name, price, description, rules, image, id }) => <Listing key={id} id={id} image={image} name={name}  price={price} description={description} rules={rules} />)
       }
 
     if (data) return (

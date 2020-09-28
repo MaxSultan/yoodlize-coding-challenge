@@ -1,5 +1,7 @@
 import React from 'react';
 import goat from '../assets/goat.psd'
+import genie from '../assets/genie.psd'
+import boat from '../assets/648147.psd'
 import {
   SafeAreaView,
   StyleSheet,
@@ -16,10 +18,63 @@ import {
   Colors,
 } from 'react-native/Libraries/NewAppScreen';
 import OwnerCard from './OwnerCard';
+import { gql, useQuery } from '@apollo/client'
+interface Props {
+  name: string;
+  price: string;
+  description: string;
+  rules: string[];
+  navigation: any;
+  image: string;
+  id: number;
+  route: any;
+}
 
 
-const ListingDetails: React.FC = (props) =>  {
-  return (
+
+const ListingDetails: React.FC<Props> = ({ route }) =>  {
+  const { id } = route.params;
+  function imageInfo(){
+    switch(id){
+        case 1:
+        return goat
+        break;
+        case 4:
+        return genie
+        break;
+        case 2:
+        return boat
+        break;
+        default: 
+        return null;
+    }
+}
+  const getListingDetails = gql`
+  query getListing {
+    Listing(where: {id: {_eq: ${id}}}) {
+      name
+      price
+      description
+      rules
+      image
+    }
+    User(limit: 1) {
+      location
+      firstName
+      lastName
+      description
+      image
+      id
+      memberSince
+    }
+  }
+  `
+  const { loading, error, data } = useQuery(getListingDetails);
+
+  if (loading) return <Text>'Loading...'</Text>;
+  if (error) return <Text>`Error! ${error.message}`</Text>;
+
+  if (data) return (
     <>
       <StatusBar barStyle="dark-content" />
       <SafeAreaView>
@@ -28,18 +83,18 @@ const ListingDetails: React.FC = (props) =>  {
           contentContainerStyle={styles.scrollView}
           >
           <View>
-            <Image source={goat} style={styles.image}/>
+            <Image source={imageInfo()} style={styles.image}/>
             <View>
-              <Text style={styles.itemName}>Autonomous Lawn Mower</Text>
-              <Text style={styles.price}>$10 per day</Text>
+              <Text style={styles.itemName}>{data.Listing[0].name}</Text>
+              <Text style={styles.price}>${data.Listing[0].price} per day</Text>
               <Text style={styles.subHeading}>Description</Text>
-              <Text style={styles.description}>Mows your lawn. No gas or effort required. Food included</Text>
+              <Text style={styles.description}>{data.Listing[0].description}</Text>
               <Text style={styles.subHeading}>Rental Rules</Text>
               <Unorderedlist>
-                <Text style={styles.description}>Must be have verified Yoodilize profile</Text>
+              <Text style={styles.description}>{data.Listing[0].rules}</Text>
               </Unorderedlist>
             </View>
-            <OwnerCard/>
+            <OwnerCard user={data.User}/>
             <View style={styles.buttonContainer}>
               <TouchableOpacity style={styles.secondaryButton}>
                 <Text style={styles.secondaryButtonText}>Message Owner</Text>
